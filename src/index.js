@@ -22,7 +22,7 @@ class TrustWeb3Provider extends EventEmitter {
     this.callbacks = new Map;
     this.wrapResults = new Map;
     this.isTrust = true;
-    this.isDebug = false;
+    this.isDebug = true;
 
     this.emitConnect(config.chainId);
   }
@@ -80,7 +80,7 @@ class TrustWeb3Provider extends EventEmitter {
         break;
       default:
         throw new ProviderRpcError(
-          4200, 
+          4200,
           `Trust does not support calling ${payload.method} synchronously without a callback. Please provide a callback parameter to call ${payload.method} asynchronously.`
         );
     }
@@ -118,6 +118,11 @@ class TrustWeb3Provider extends EventEmitter {
         if (error) {
           reject(error);
         } else {
+          if(payload.method == "eth_requestAccounts") {
+            var data = Array.of(data);
+          }
+          console.log("resolve" + payload.method);
+          console.log(data)
           resolve(data);
         }
       });
@@ -141,6 +146,8 @@ class TrustWeb3Provider extends EventEmitter {
         case "eth_signTypedData":
         case "eth_signTypedData_v3":
           return this.eth_signTypedData(payload);
+        case "eth_signTypedData_v4":
+          return this.eth_signTypedData_v4(payload);
         case "eth_sendTransaction":
           return this.eth_sendTransaction(payload);
         case "eth_requestAccounts":
@@ -153,7 +160,7 @@ class TrustWeb3Provider extends EventEmitter {
         case "eth_getFilterLogs":
         case "eth_subscribe":
           throw new ProviderRpcError(
-            4200, 
+            4200,
             `Trust does not support calling ${payload.method}. Please use your own solution`
           );
         default:
@@ -208,6 +215,10 @@ class TrustWeb3Provider extends EventEmitter {
     this.postMessage("signTypedMessage", payload.id, {data: payload.params[1]});
   }
 
+  eth_signTypedData_v4(payload) {
+    this.postMessage("signTypedMessageV4", payload.id, {data: payload.params[1]});
+  }
+
   eth_sendTransaction(payload) {
     this.postMessage("signTransaction", payload.id, payload.params[0]);
   }
@@ -221,11 +232,16 @@ class TrustWeb3Provider extends EventEmitter {
    */
   postMessage(handler, id, data) {
     if (this.ready || handler === "requestAccounts") {
-      window.webkit.messageHandlers[handler].postMessage({
+      var message = {
         "name": handler,
         "object": data,
         "id": id
-      });
+      }
+      if(window.android) {
+        window.android.sendMessage(JSON.stringify(message));
+      } else {
+        window.webkit.messageHandlers[handler].postMessage(message);
+      }
     } else {
       // don't forget to verify in the app
       this.sendError(id, new ProviderRpcError(4100, "provider is not ready"));
@@ -233,9 +249,22 @@ class TrustWeb3Provider extends EventEmitter {
   }
 
   /**
-   * @private Internal native result -> js 
+   * @private Internal native result -> js
    */
-  sendResponse(id, result) {
+  sendResponse(id, res) {
+    let result;
+    console.log(res);
+    if(window.android) {
+      try{
+        result = JSON.parse(res);
+      } catch {
+        console.log("parse error " + res);
+        result = res;
+      }
+    } else {
+      result = res;
+    }
+    console.log("result:" + result);
     let originId = this.idMapping.tryPopId(id) || id;
     let callback = this.callbacks.get(id);
     let wrapResult = this.wrapResults.get(id);
@@ -255,7 +284,7 @@ class TrustWeb3Provider extends EventEmitter {
   }
 
   /**
-   * @private Internal native error -> js 
+   * @private Internal native error -> js
    */
   sendError(id, error) {
     console.log(`<== ${id} sendError ${error}`);
