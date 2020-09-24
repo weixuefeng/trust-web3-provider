@@ -118,11 +118,9 @@ class TrustWeb3Provider extends EventEmitter {
         if (error) {
           reject(error);
         } else {
-          if(payload.method == "eth_requestAccounts") {
+          if(payload.method == "eth_requestAccounts" && window.android) {
             var data = Array.of(data);
           }
-          console.log("resolve" + payload.method);
-          console.log(data)
           resolve(data);
         }
       });
