@@ -13,7 +13,7 @@ import Utils from "./utils";
 import IdMapping from "./id_mapping";
 import { EventEmitter } from "events";
 
-class TrustWeb3Provider extends EventEmitter {
+class NewpayWeb3Provider extends EventEmitter {
   constructor(config) {
     super();
     this.setConfig(config);
@@ -81,7 +81,7 @@ class TrustWeb3Provider extends EventEmitter {
       default:
         throw new ProviderRpcError(
           4200,
-          `Trust does not support calling ${payload.method} synchronously without a callback. Please provide a callback parameter to call ${payload.method} asynchronously.`
+          `Newpay does not support calling ${payload.method} synchronously without a callback. Please provide a callback parameter to call ${payload.method} asynchronously.`
         );
     }
     return response;
@@ -159,7 +159,7 @@ class TrustWeb3Provider extends EventEmitter {
         case "eth_subscribe":
           throw new ProviderRpcError(
             4200,
-            `Trust does not support calling ${payload.method}. Please use your own solution`
+            `Newpay does not support calling ${payload.method}. Please use your own solution`
           );
         default:
           // call upstream rpc
@@ -294,5 +294,5 @@ class TrustWeb3Provider extends EventEmitter {
   }
 }
 
-window.Trust = TrustWeb3Provider;
+window.Newpay = NewpayWeb3Provider;
 window.Web3 = Web3;
