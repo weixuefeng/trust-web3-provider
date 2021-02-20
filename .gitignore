@@ -102,4 +102,5 @@ coverage.json
 *.swo
 *~
 android/lib/src/main/res/raw/
+build.sh
 
