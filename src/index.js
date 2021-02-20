@@ -79,6 +79,7 @@ class NewpayWeb3Provider extends EventEmitter {
         response.result = this.eth_chainId();
         break;
       default:
+        console.error("Newpay does not support calling" + payload + "synchronously without a callback. Please provide a callback parameter to call ${payload.method} asynchronously.")
         throw new ProviderRpcError(
           4200,
           `Newpay does not support calling ${payload.method} synchronously without a callback. Please provide a callback parameter to call ${payload.method} asynchronously.`
@@ -156,10 +157,9 @@ class NewpayWeb3Provider extends EventEmitter {
         case "eth_uninstallFilter":
         case "eth_getFilterChanges":
         case "eth_getFilterLogs":
-        case "eth_subscribe":
           throw new ProviderRpcError(
             4200,
-            `Newpay does not support calling ${payload.method}. Please use your own solution`
+            `Newpay does not support calling ${payload}. Please use your own solution`
           );
         default:
           // call upstream rpc
@@ -294,5 +294,5 @@ class NewpayWeb3Provider extends EventEmitter {
   }
 }
 
-window.Newpay = NewpayWeb3Provider;
+window.NewpayProvider = NewpayWeb3Provider;
 window.Web3 = Web3;
