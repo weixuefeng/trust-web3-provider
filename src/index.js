@@ -194,7 +194,7 @@ class NewpayWeb3Provider extends EventEmitter {
   }
 
   eth_chainId() {
-    return "0x" + this.chainId.toString(16);
+    return this.chainId.toString(16);
   }
 
   eth_sign(payload) {
