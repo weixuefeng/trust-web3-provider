@@ -79,7 +79,7 @@ class NewpayWeb3Provider extends EventEmitter {
         response.result = this.eth_chainId();
         break;
       default:
-        console.error("Newpay does not support calling" + payload + "synchronously without a callback. Please provide a callback parameter to call ${payload.method} asynchronously.")
+        console.error(`Newpay does not support calling " + ${JSON.stringify(payload)} + " synchronously without a callback. Please provide a callback parameter to call ${payload.method} asynchronously.`)
         throw new ProviderRpcError(
           4200,
           `Newpay does not support calling ${payload.method} synchronously without a callback. Please provide a callback parameter to call ${payload.method} asynchronously.`
@@ -119,7 +119,7 @@ class NewpayWeb3Provider extends EventEmitter {
         if (error) {
           reject(error);
         } else {
-          if(payload.method == "eth_requestAccounts" && window.android) {
+          if(payload.method == "eth_requestAccounts" && window.flutter_inappwebview) {
             var data = Array.of(data);
           }
           resolve(data);
@@ -235,8 +235,8 @@ class NewpayWeb3Provider extends EventEmitter {
         "object": data,
         "id": id
       }
-      if(window.android) {
-        window.android.sendMessage(JSON.stringify(message));
+      if(window.flutter_inappwebview) {
+        window.flutter_inappwebview.callHandler("postMessage", JSON.stringify(message));
       } else {
         window.webkit.messageHandlers[handler].postMessage(message);
       }
@@ -252,7 +252,7 @@ class NewpayWeb3Provider extends EventEmitter {
   sendResponse(id, res) {
     let result;
     console.log(res);
-    if(window.android) {
+    if(window.flutter_inappwebview) {
       try{
         result = JSON.parse(res);
       } catch {
