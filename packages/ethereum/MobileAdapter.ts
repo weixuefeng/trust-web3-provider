@@ -277,7 +277,7 @@ export class MobileAdapter {
       Number(chainId) !== Number(this.provider.getChainId())
     ) {
       throw new Error(
-        'Provided chainId does not match the currently active chain',
+        `Provided chainId does not match the currently active chain\r\nmessage:${JSON.stringify(message)}, chainId: ${this.provider.getChainId()}`,
       );
     }
 

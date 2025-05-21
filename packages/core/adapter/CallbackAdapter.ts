@@ -30,6 +30,7 @@ interface ICallbackEntry {
  */
 export class CallbackAdapter extends Adapter {
   constructor() {
+    console.log('CallbackAdapter');
     super(AdapterStrategy.CALLBACK);
   }
 
@@ -39,17 +40,19 @@ export class CallbackAdapter extends Adapter {
     return new Promise((resolve, reject) => {
       const id = new Date().getTime() + Math.floor(Math.random() * 1000);
       this.callback.set(id.toString(), { reject, resolve });
+      console.log(`CallbackAdapter request callback ${JSON.stringify(this.callback.keys())}`);
       super.request({ ...params, id }, network);
     });
   }
 
   public sendResponse(requestId: number, response: any) {
     if (this.callback.has(requestId.toString())) {
+      console.log(`CallbackAdapter sendResponse callback ${JSON.stringify(this.callback.keys())}`);
       const callback = this.callback.get(requestId.toString());
       this.callback.delete(requestId.toString());
       callback?.resolve(response);
     } else {
-      console.error(`Unable to find callback for requestId: ${requestId}`);
+      console.error(`Unable to find callback for requestId: ${requestId}, \r\n callback is ${JSON.stringify(this.callback.keys())}`);
     }
   }
 
@@ -70,7 +73,7 @@ export class CallbackAdapter extends Adapter {
 
       callback?.reject(errorParsed);
     } else {
-      console.error(`Unable to find callback for requestId: ${requestId}`);
+      console.error(`Unable to find callback for requestId: ${requestId}\r\n callback is ${JSON.stringify(this.callback.keys())}`);
     }
   }
 }

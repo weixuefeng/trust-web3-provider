@@ -25,7 +25,8 @@
     "@trustwallet/web3-provider-cosmos": "workspace:*",
     "@trustwallet/web3-provider-aptos": "workspace:*",
     "@trustwallet/web3-provider-ton": "workspace:*",
-    "rollup-plugin-polyfill-node": "0.13.0"
+    "rollup-plugin-polyfill-node": "0.13.0",
+    "uuid": "9.0.1"
   },
   "devDependencies": {}
 }

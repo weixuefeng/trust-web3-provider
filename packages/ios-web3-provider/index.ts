@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { SolanaProvider } from '@trustwallet/web3-provider-solana';
 import { EthereumProvider } from '@trustwallet/web3-provider-ethereum';
 import { CosmosProvider } from '@trustwallet/web3-provider-cosmos';
@@ -14,30 +15,31 @@ import { IAptosProviderConfig } from '@trustwallet/web3-provider-aptos/types/Apt
 import { ITonProviderConfig } from '@trustwallet/web3-provider-ton/types/TonProvider';
 import { ITonBridgeConfig } from '@trustwallet/web3-provider-ton/types/TonBridge';
 import { TonBridge, TonProvider } from '@trustwallet/web3-provider-ton';
+import { TronProvider } from '@trustwallet/web3-provider-tron';
+import { ITronProviderConfig } from '@trustwallet/web3-provider-tron/types/TronProvider'
 
 const core = (strategy: AdapterStrategyType, handler?: IHandler) =>
   new Web3Provider({ strategy, handler });
 
-const solana = (config: ISolanaProviderConfig) => new SolanaProvider(config);
+// const solana = (config: ISolanaProviderConfig) => new SolanaProvider(config);
 
-const cosmos = (config: ICosmosProviderConfig) => new CosmosProvider(config);
+// const cosmos = (config: ICosmosProviderConfig) => new CosmosProvider(config);
 
 const ethereum = (config: IEthereumProviderConfig) =>
   new EthereumProvider(config);
 
-const aptos = (config: IAptosProviderConfig) => new AptosProvider(config);
+// const aptos = (config: IAptosProviderConfig) => new AptosProvider(config);
 
-const ton = (config: ITonProviderConfig) => new TonProvider(config);
+// const ton = (config: ITonProviderConfig) => new TonProvider(config);
 
-const tonBridge = (config: ITonBridgeConfig, provider: TonProvider) =>
-  new TonBridge(config, provider);
+const tron = (config: ITronProviderConfig) => new TronProvider(config);
 
-window.trustwallet = {
+// const tonBridge = (config: ITonBridgeConfig, provider: TonProvider) =>
+//   new TonBridge(config, provider);
+
+window.abwallet = {
   core,
-  solana,
-  cosmos,
   ethereum,
-  aptos,
-  ton,
-  tonBridge,
+  tron,
+  randomUUID: () => uuidv4(),
 };

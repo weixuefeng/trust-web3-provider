@@ -33,6 +33,8 @@ export class EthereumProvider
 
   isTrustWallet: boolean = true;
 
+  isABWallet: boolean = true;
+
   providers: object[] | undefined;
 
   constructor(config?: IEthereumProviderConfig) {

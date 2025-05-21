@@ -1,0 +1,1 @@
+cp /Users/weixuefeng/source/gitlab/force/trust-web3-provider/packages/ios-web3-provider/swift/trust-min.js /Users/weixuefeng/source/gitlab/force/force_wallet/packages/lib_dapp/assets/js/trust-min.js

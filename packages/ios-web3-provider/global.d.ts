@@ -1,6 +1,6 @@
 declare global {
   interface Window {
-    trustwallet: any;
+    abwallet: any;
   }
 }
 
