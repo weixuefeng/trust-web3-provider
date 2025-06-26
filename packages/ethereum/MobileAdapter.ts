@@ -174,13 +174,21 @@ export class MobileAdapter {
           params: (args.params as object[])[0],
         });
       default: {
-        const res = await this.provider.getRPC().call({
-          method: args.method,
-          jsonrpc: '2.0',
-          params: args.params,
+       return await this.provider.internalRequest({
+          method: 'ethCall',
+          params: {
+            method: args.method,
+            params: args.params,
+          },
         });
 
-        return res;
+        // const res = await this.provider.getRPC().call({
+        //   method: args.method,
+        //   jsonrpc: '2.0',
+        //   params: args.params,
+        // });
+
+        // return res;
       }
     }
   }
