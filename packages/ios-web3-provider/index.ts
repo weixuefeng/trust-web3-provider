@@ -21,7 +21,7 @@ import { ITronProviderConfig } from '@trustwallet/web3-provider-tron/types/TronP
 const core = (strategy: AdapterStrategyType, handler?: IHandler) =>
   new Web3Provider({ strategy, handler });
 
-// const solana = (config: ISolanaProviderConfig) => new SolanaProvider(config);
+const solana = (config: ISolanaProviderConfig) => new SolanaProvider(config);
 
 // const cosmos = (config: ICosmosProviderConfig) => new CosmosProvider(config);
 
@@ -39,6 +39,7 @@ const tron = (config: ITronProviderConfig) => new TronProvider(config);
 
 window.abwallet = {
   core,
+  solana,
   ethereum,
   tron,
   randomUUID: () => uuidv4(),

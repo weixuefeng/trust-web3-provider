@@ -39,11 +39,11 @@ import { bytesEqual } from '../util';
 import * as bs58 from 'bs58';
 import ISolanaProvider from '../types/SolanaProvider';
 
-export const TrustNamespace = 'trust:';
+export const TrustNamespace = 'abwallet:';
 
 export type TrustFeature = {
   [TrustNamespace]: {
-    trust: ISolanaProvider;
+    abwallet: ISolanaProvider;
   };
 };
 
@@ -52,7 +52,7 @@ export class TrustWallet implements Wallet {
     [E in StandardEventsNames]?: StandardEventsListeners[E][];
   } = {};
   readonly #version = '1.0.0' as const;
-  readonly #name = 'Trust' as const;
+  readonly #name = 'ABWallet' as const;
   readonly #icon = icon;
   #account: TrustWalletAccount | null = null;
   readonly #trust: ISolanaProvider;
@@ -113,7 +113,7 @@ export class TrustWallet implements Wallet {
         signIn: this.#signIn,
       },
       [TrustNamespace]: {
-        trust: this.#trust,
+        abwallet: this.#trust,
       },
     };
   }
