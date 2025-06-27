@@ -306,9 +306,8 @@ export class MobileAdapter {
   }
 
   contractCall(address: string, method: string) {
-    return this.provider.getRPC().call({
+    return this.request({
       method: 'eth_call',
-      jsonrpc: '2.0',
       params: [
         {
           to: address,
@@ -316,6 +315,6 @@ export class MobileAdapter {
         },
         'latest',
       ],
-    });
+    }) as Promise<any>;
   }
 }
