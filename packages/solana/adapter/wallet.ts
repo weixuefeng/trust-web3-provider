@@ -52,7 +52,7 @@ export class TrustWallet implements Wallet {
     [E in StandardEventsNames]?: StandardEventsListeners[E][];
   } = {};
   readonly #version = '1.0.0' as const;
-  readonly #name = 'AB Wallet' as const;
+  readonly #name = 'AB Pay' as const;
   readonly #icon = icon;
   #account: TrustWalletAccount | null = null;
   readonly #trust: ISolanaProvider;
