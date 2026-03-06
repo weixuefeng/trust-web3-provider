@@ -248,7 +248,7 @@ export class MobileAdapter {
       method: MobileAdapter.isUTF8(buffer)
         ? 'signPersonalMessage'
         : 'signMessage',
-      params: { data, address, isEthSign: true },
+      params: { data, address, isEthSign: true, originalMethod: 'eth_sign' },
     });
   }
 
